@@ -1,0 +1,15 @@
+#akun, #materi, #learning-path {
+    fill: #fff;
+}
+
+#done {
+    fill: green;
+}
+
+#onprogress {
+    fill: yellow;
+}
+
+#notyet {
+    fill: red;
+}

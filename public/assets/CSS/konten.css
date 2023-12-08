@@ -1,0 +1,11 @@
+.tamnel {
+    max-width: 100%;
+    height: 285px;
+    object-fit: cover;
+}
+
+.header-berita {
+    max-width: 90%;
+    height: 450px;
+    object-fit: cover;
+}
