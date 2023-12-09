@@ -25,6 +25,7 @@ class Materi extends Model
         'deskripsi',
         'isi',
         'image',
+        'learning_path_id'
     ];
 
     protected $casts = [

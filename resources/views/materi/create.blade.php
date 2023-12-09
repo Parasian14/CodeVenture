@@ -45,7 +45,7 @@
                 <textarea class="form-control border-black" id="isi" name = "isi" rows="3"></textarea>
             </div>
             <div class="text-center">
-                <a href="Materi.index" class="btn btn-danger">Kembali</a>
+                <a href="{{ route('Materi.index') }}" class="btn btn-danger">Kembali</a>
                 <form>
                     <button type="submit" class="btn btn-success">Simpan</button>
                 </form>

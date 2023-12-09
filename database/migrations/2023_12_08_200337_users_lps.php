@@ -19,7 +19,6 @@ return new class extends Migration
                  ->on('users')->onDelete('cascade');
             $table->foreign('lps_id')->references('id')
                 ->on('learning_path')->onDelete('cascade');
-            $table->double('progress');
             $table->timestamps();
         });
     }

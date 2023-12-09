@@ -23,7 +23,7 @@
                     <div class="fs-5">{!! $materi->isi !!}</div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
-                    <a href="{{ url()->previous() }}" class="btn btn-danger btn-lg mt-5 ms-5">Kembali</a>
+                    <a href="{{ route('LearningPath.show',['lp_nama'=>$lp->nama]) }}" class="btn btn-danger btn-lg mt-5 ms-5">Kembali</a>
                     <div class="btn-group mt-5">
                         <a href="#" class="btn btn-outline-success btn-lg"><i class="bi bi-chevron-left"></i></a>
                         <a href="#" class="btn btn-outline-success btn-lg"><i class="bi bi-chevron-right"></i></a>
@@ -42,7 +42,7 @@
                                 <div class="d-flex gap-2 w-100 justify-content-between">
                                     <div>
                                         <h5 class="mb-0">{{ $m->judul }}</h5>
-                                        <p class="mb-0 opacity-75">{{ $m->deskripsi }}</p>
+                                        <p class="mb-0 opacity-75">{{ Str::limit($m->deskripsi, 80)  }}</p>
                                     </div>
                                     <svg class="bi" width="16" height="16">
                                         <use xlink:href="#onprogress" />

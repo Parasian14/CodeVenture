@@ -47,7 +47,7 @@
                                     alt="Learning Path">
                                 <div class="card-body">
                                     <h5 class="card-title text-center">{{ $lp->nama }}</h5>
-                                    <p class="card-text text-center">{{ $lp->deskripsi }}</p>
+                                    <p class="card-text text-center">{{ Str::limit($lp->deskripsi, 100) }}</p>
                                     <div class="text-center mb-2">
                                         <a href="{{ route('LearningPath.show',['lp_nama'=>$lp->nama]) }}" class="btn btn-lg btn-danger">Pelajari</a>
                                     </div>

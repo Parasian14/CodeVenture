@@ -23,7 +23,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/progress" class="nav-link link-body-emphasis">
+                    <a href="{{ route('Progress.index') }}" class="nav-link link-body-emphasis">
                         <svg class="bi pe-none me-2" width="24" height="24">
                             <use xlink:href="/progress" />
                         </svg>
@@ -31,7 +31,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link link-body-emphasis">
+                    <a href="{{ route('logout') }}" class="nav-link link-body-emphasis">
                         <svg class="bi pe-none me-2" width="24" height="24">
                             <use xlink:href="#logout" />
                         </svg>

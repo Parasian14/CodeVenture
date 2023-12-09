@@ -20,6 +20,14 @@
             @method('patch')
             @csrf
             <div class="mb-3">
+                <label for="judul" class="form-label">Learning Path</label>
+                <select class="form-control border-black" name = "lp">
+                    @foreach ($lps as $lp)
+                        <option value={{ $lp->id }}>{{ $lp->nama }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-3">
                 <label for="judul" class="form-label">Nama</label>
                 <input type="text" class="form-control border-black" name = "judul" value = "{{ $materi->judul }}" id="judul" aria-describedby="judulHelp">
                 <div id="judulHelp" class="form-text">Nama Learning Path.</div>

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('deskripsi');
             $table->text('isi');
             $table->string('image')->unique()->nullable();
-            $table->unsignedBigInteger('learning_path_id');
+            $table->unsignedBigInteger('learning_path_id')->nullable()->constrained();
             $table->foreign('learning_path_id')->references('id')->on('learning_path')->cascadeOnDelete();
             $table->timestamps();
         });

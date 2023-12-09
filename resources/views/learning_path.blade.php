@@ -35,7 +35,7 @@
                                 <img src="{{ $lp->image }}" class="tamnel" alt="tamnel">
                                 <div class="card-body text-center">
                                     <h5>{{ $lp->nama }}</h5>
-                                    <p class="card-text">{{ $lp->deskripsi }}</p>
+                                    <p class="card-text">{{ Str::limit($lp->deskripsi, 150)  }}</p>
                                     <div class="btn-group text-center">
                                         <a href="{{ route('LearningPath.show',['lp_nama'=>$lp->nama]) }}" class="btn btn btn-danger">Pelajari</a>
                                     </div>

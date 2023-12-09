@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use app\Models\User;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Materi;
 
 
 class LearningPathController extends Controller
@@ -21,6 +22,7 @@ class LearningPathController extends Controller
         $lps = DB::table('learning_path')->paginate(15);
         return view('admin.learningPath', ['lps' => $lps]);
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -36,8 +38,8 @@ class LearningPathController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'nama' => ['required', 'string', 'max:10', 'unique:'.LearningPath::class],
-            'deskripsi' => ['required', 'min:3','max:100'],
+            'nama' => ['required', 'string', 'max:1000', 'unique:'.LearningPath::class],
+            'deskripsi' => ['required', 'min:3','max:1000'],
             'isi'=>['required', 'min:3','max:1000'],
         ]);
 
@@ -54,7 +56,6 @@ class LearningPathController extends Controller
             'isi' => $request->isi,  
             'image'=>'/storage/'.$path
         ]);
- 
         return redirect(route('LearningPath.index'));
     }
 
@@ -82,7 +83,11 @@ class LearningPathController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-
+    public function edit($lp_nama)
+    {
+        $lp = LearningPath::where('nama',$lp_nama)->first();
+        return view('LearningPath.edit', ['lp'=> $lp]);
+    }
     /**
      * Update the specified resource in storage.
      */
@@ -90,24 +95,22 @@ class LearningPathController extends Controller
     {
         $lp = LearningPath::find($lp_id)->first();
         if($lp->nama != $request->nama){
-            $request->validate(['nama' => ['required', 'string', 'max:10', 'unique:'.LearningPath::class],]);
+            $request->validate(['nama' => ['required', 'string', 'max:1000', 'unique:'.LearningPath::class],]);
         }
         $request->validate([
-            'deskripsi' => ['required', 'min:3','max:100'],
+            'deskripsi' => ['required', 'min:3','max:1000'],
             'isi'=>['required', 'min:3','max:1000'],
         ]);
         if($request->hasFile('image')){
             $filename = time().$request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images/LearningPath', $filename, 'public');
-        }
-        else {
-            $path = $lp->image;
+            Storage::delete($lp->image);
+            $lp->Update(['image'=>'/storage/'.$path]);
         }
         $lp->Update([
             'nama' => $request->nama,
             'deskripsi' => $request->deskripsi,
             'isi' => $request->isi,  
-            'image'=>'/storage/'.$path
         ]);
         return redirect(route('LearningPath.index'));
     }
@@ -119,7 +122,11 @@ class LearningPathController extends Controller
     {
         DB::table('users_lps')->where('lps_id',$lp_id)->delete();
         $materis = LearningPath::find($lp_id)->materis;
-        DB::table('materi')->whereIn('id',$materis->pluck('id'))->delete();
+        $m_ids = $materis->pluck('id');
+        foreach($m_ids as $m_id){
+            $materi = Materi::find($m_id);
+            $materi -> Update(['learning_path_id' => null]);
+        }
         $path = LearningPath::find($lp_id)->image;
         Storage::delete($path);
         DB::table('learning_path')->where('id',$lp_id)->delete();

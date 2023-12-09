@@ -24,8 +24,8 @@ class MateriController extends Controller
      */
     public function create()
     {
-        $lp = DB::table('learning_path')->get();
-        return view("Materi.create",['lps'=> $lp]);
+        $lps = DB::table('learning_path')->get();
+        return view("Materi.create",['lps'=> $lps]);
     }
 
     /**
@@ -34,9 +34,9 @@ class MateriController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul' => ['required', 'string', 'max:10', 'unique:'.Materi::class],
-            'deskripsi' => ['required', 'min:3','max:100'],
-            'isi'=>['required', 'min:3','max:1000'],
+            'judul' => ['required', 'string', 'max:1000', 'unique:'.Materi::class],
+            'deskripsi' => ['required', 'min:3','max:1000'],
+            'isi'=>['required', 'min:3'],
         ]);
         if($request->hasFile('image')){
             $filename = time().$request->file('image')->getClientOriginalName();
@@ -53,6 +53,7 @@ class MateriController extends Controller
             'image'=>'/storage/'.$path
         ]);
         return redirect(route('Materi.index'));
+        
     }
 
     /**
@@ -71,8 +72,9 @@ class MateriController extends Controller
      */
     public function edit($materi_judul)
     {
+        $lps = DB::table('learning_path')->get();
         $materi = Materi::where('judul',$materi_judul)->first();
-        return view('Materi.edit', ['materi'=> $materi]);
+        return view('Materi.edit', ['materi'=> $materi,'lps'=> $lps]);
     }
 
     /**
@@ -80,26 +82,25 @@ class MateriController extends Controller
      */
     public function update(Request $request, $materi_id)
     {
-        $materi = Materi::find($materi_id)->first();
+        $materi = Materi::find($materi_id);
         if($materi->judul != $request->judul){
-            $request->validate(['judul' => ['required', 'string', 'max:10', 'unique:'.Materi::class]]);
+            $request->validate(['judul' => ['required', 'string', 'max:1000', 'unique:'.Materi::class]]);
         }
         $request->validate([
-            'deskripsi' => ['required', 'min:3','max:100'],
-            'isi'=>['required', 'min:3','max:1000'],
+            'deskripsi' => ['required', 'min:3','max:1000'],
+            'isi'=>['required', 'min:3'],
         ]);
         if($request->hasFile('image')){
             $filename = time().$request->file('image')->getClientOriginalName();
-            $path = $request->file('image')->storeAs('images/LearningPath', $filename, 'public');
-        }
-        else {
-            $path = $materi->image;
+            $path = $request->file('image')->storeAs('images/Materi', $filename, 'public');
+            Storage::delete($materi->image);
+            $materi->Update(['image'=>'/storage/'.$path]);
         }
         $materi->Update([
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
             'isi' => $request->isi,  
-            'image'=>'/storage/'.$path
+            'learning_path_id'=> $request->lp
         ]);
         return redirect(route('Materi.index'));
     }

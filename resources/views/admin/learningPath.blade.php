@@ -197,7 +197,7 @@
 
                     <ul class="nav flex-column mb-auto">
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center gap-2" href="#">
+                            <a class="nav-link d-flex align-items-center gap-2" href="{{ route('logout') }}">
                                 <svg class="bi">
                                     <use xlink:href="#door-closed" />
                                 </svg>
@@ -233,9 +233,8 @@
                     <thead>
                         <tr>
                             <th scope="col">Id</th>
-                            <th scope="col">Judul</th>
+                            <th scope="col">Nama</th>
                             <th scope="col">Deskripsi</th>
-                            <th scope="col">Materi</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -244,8 +243,7 @@
                             <tr>
                                 <th scope="row">{{ $lp -> id }}</th>
                                 <td>{{ $lp -> nama }}</td>
-                                <td>{{ $lp -> deskripsi }}</td>
-                                <td>...</td>
+                                <td>{{ $lp -> deskripsi }}</td>                               
                                 <td>
                                     
                                     <div class="btn-group">

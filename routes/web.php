@@ -60,7 +60,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/preferences', function () {
-    $materis = DB::table('materi')->paginate(9);
+    $materis = DB::table('materi')->get();
     return view('preferences',['materis'=> $materis]);
 })->middleware(['auth']);
 

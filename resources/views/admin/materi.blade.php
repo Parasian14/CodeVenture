@@ -197,7 +197,7 @@
 
                     <ul class="nav flex-column mb-auto">
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center gap-2" href="#">
+                            <a class="nav-link d-flex align-items-center gap-2" href="{{ route('logout') }}">
                                 <svg class="bi">
                                     <use xlink:href="#door-closed" />
                                 </svg>
@@ -242,13 +242,24 @@
                     <tbody class="table-group-divider">
                         @foreach ($materis as $materi)
                         <tr>
-                            <th scope="row">1</th>
+                            <th scope="row">{{ $materi->id }}</th>
                             <td>{{ $materi -> judul }}</td>
                             <td>{{ $materi -> deskripsi }}</td>
-                            <td>{{ ($lps -> where('id',$materi->learning_path_id))->first()->nama }}</td>
+                            @if($lps->first()==null)
+                                @php($name = "not set")
+                            @else
+                                @if(($lps -> where('id',$materi->learning_path_id))->first()!=null)
+                                    @php($name = ($lps -> where('id',$materi->learning_path_id))->first()->nama)
+                                @else
+                                    @php($name = "not set")
+                                @endif
+                            @endif
+                            <td>{{ $name }}</td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{{ route('Materi.show',['materi_judul'=>$materi->judul, 'lp_nama'=>($lps -> where('id',$materi->learning_path_id))->first()->nama]) }}" class="btn btn-outline-primary btn-sm">View</a>
+                                    @if($name != "not set")
+                                        <a href="{{ route('Materi.show',['materi_judul'=>$materi->judul, 'lp_nama'=>$name]) }}" class="btn btn-outline-primary btn-sm">View</a>
+                                    @endif
                                     <a href="{{ route('Materi.edit',['Materi'=>$materi->judul]) }}" class="btn btn-outline-success btn-sm">Edit</a>
                                     <form method = 'post' action="{{ route('Materi.destroy',['Materi'=>$materi->id]) }}">
                                         @csrf
