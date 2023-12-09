@@ -25,16 +25,8 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <a href="{{ url()->previous() }}" class="btn btn-danger btn-lg mt-5 ms-5">Kembali</a>
                     <div class="btn-group mt-5">
-                        @php
-                            $user_lp_materis = $user_materis->whereIn('materis_id',$materis->pluck('id')->toArray());
-                            $curr = $user_lp_materis->where('materis_id',$materi->id);
-                            $next = $user_lp_materis->where('id', '>', $curr->first()->id)->first();
-                            $prev = $user_lp_materis->where('id', '<', $curr->first()->id)->first();
-                            $next_judul = $next==null? null : $materis->where('id',$next->materis_id)->first()->judul;
-                            $prev_judul = $prev==null? null : $materis->where('id',$prev->materis_id)->first()->judul;
-                        @endphp
-                        <a href="{{ $prev_judul==null? route('LearningPath.show',['lp_nama'=>$lp->nama]) : route('Materi.show',['materi_judul'=>$prev_judul, 'lp_nama'=>$lp->nama]) }}" class="btn btn-outline-success btn-lg"><i class="bi bi-chevron-left"></i></a>
-                        <a href="{{ $next_judul==null? route('LearningPath.show',['lp_nama'=>$lp->nama]) : route('Materi.show',['materi_judul'=>$next_judul, 'lp_nama'=>$lp->nama, 'materi'=>$materi]) }}" class="btn btn-outline-success btn-lg"><i class="bi bi-chevron-right"></i></a>
+                        <a href="#" class="btn btn-outline-success btn-lg"><i class="bi bi-chevron-left"></i></a>
+                        <a href="#" class="btn btn-outline-success btn-lg"><i class="bi bi-chevron-right"></i></a>
                     </div>
                 </div>
 
@@ -53,14 +45,7 @@
                                         <p class="mb-0 opacity-75">{{ $m->deskripsi }}</p>
                                     </div>
                                     <svg class="bi" width="16" height="16">
-                                        @php($status = $user_materis->where('materis_id', $m->id)->first()->status)
-                                        @if($status == 'done')
-                                            <use xlink:href="#done" />
-                                        @elseif($status == 'open')
-                                            <use xlink:href="#onprogress" />
-                                        @else
-                                            <use xlink:href="#notyet" />
-                                        @endif
+                                        <use xlink:href="#onprogress" />
                                     </svg>
                                 </div>
                             </a>

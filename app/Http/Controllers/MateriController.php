@@ -6,8 +6,7 @@ use App\Models\LearningPath;
 use Illuminate\Http\Request;
 use App\Models\Materi;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-use App\Models\UsersMateris;
+use Illuminate\Support\Facades\Storage;
 class MateriController extends Controller
 {
     /**
@@ -39,20 +38,21 @@ class MateriController extends Controller
             'deskripsi' => ['required', 'min:3','max:100'],
             'isi'=>['required', 'min:3','max:1000'],
         ]);
-        
-        $filename = time().$request->file('image')->getClientOriginalName();
-
-        $path = $request->file('image')->storeAs('images/Materi', $filename, 'public');
-        
+        if($request->hasFile('image')){
+            $filename = time().$request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images/Materi', $filename, 'public');
+        }
+        else {
+            $path = null;
+        }  
         $lp = LearningPath::find($request->lp);
-        
         $lp->materis()->create([
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
             'isi' => $request->isi,  
             'image'=>'/storage/'.$path
         ]);
-        return redirect(route('LearningPath.index'));
+        return redirect(route('Materi.index'));
     }
 
     /**
@@ -63,34 +63,56 @@ class MateriController extends Controller
         $materi = DB::table('materi')->where('judul', $materi_judul)->first();
         $lp = DB::table('learning_path')->where('nama', $lp_nama)->first();
         $materis = LearningPath::find($lp->id)->materis;
-        $user_id = Auth::User()->id;
-        $user_materis = DB::table('users_materis')->where('users_id', $user_id)->get();
-        return view("Materi.index", ['materi'=> $materi, 'lp'=> $lp, 'materis'=> $materis, 'user_materis'=>$user_materis]);
+        return view("Materi.index", ['materi'=> $materi, 'lp'=> $lp, 'materis'=> $materis]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($materi_judul)
     {
-        //
+        $materi = Materi::where('judul',$materi_judul)->first();
+        return view('Materi.edit', ['materi'=> $materi]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update($materi)
+    public function update(Request $request, $materi_id)
     {
-        $user_id = Auth::User()->id;
-        $user_materis = DB::table('users_materis')->where('users_id', $user_id)->get();
-        dd($user_materis);
+        $materi = Materi::find($materi_id)->first();
+        if($materi->judul != $request->judul){
+            $request->validate(['judul' => ['required', 'string', 'max:10', 'unique:'.Materi::class]]);
+        }
+        $request->validate([
+            'deskripsi' => ['required', 'min:3','max:100'],
+            'isi'=>['required', 'min:3','max:1000'],
+        ]);
+        if($request->hasFile('image')){
+            $filename = time().$request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images/LearningPath', $filename, 'public');
+        }
+        else {
+            $path = $materi->image;
+        }
+        $materi->Update([
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'isi' => $request->isi,  
+            'image'=>'/storage/'.$path
+        ]);
+        return redirect(route('Materi.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($materi_id)
     {
-        
+        $path = Materi::find($materi_id)->image;
+        Storage::delete($path);
+        DB::table('materi')->where('id',$materi_id)->delete();
+
+        return redirect(route('Materi.index'));
     }
 }

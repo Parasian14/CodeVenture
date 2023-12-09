@@ -123,7 +123,7 @@
 </svg>
 
 <header class="navbar sticky-top bg-warning flex-md-nowrap p-0 shadow" data-bs-theme="dark">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="index.html">Codeventure | Admin</a>
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="/">Codeventure | Admin</a>
 
     <ul class="navbar-nav flex-row bg-warning d-md-none">
         <li class="nav-item text-nowrap">
@@ -232,7 +232,7 @@
                 <table class="table table-striped text-center">
                     <thead>
                         <tr>
-                            <th scope="col">No</th>
+                            <th scope="col">Id</th>
                             <th scope="col">Judul</th>
                             <th scope="col">Deskripsi</th>
                             <th scope="col">Materi</th>
@@ -250,8 +250,12 @@
                                     
                                     <div class="btn-group">
                                         <a href="{{ route('LearningPath.show',['lp_nama'=>$lp->nama]) }}" class="btn btn-outline-primary btn-sm">View</a>
-                                        <a href="#" class="btn btn-outline-success btn-sm">Edit</a>
-                                        <a href="#" class="btn btn-outline-danger btn-sm">Hapus</a>
+                                        <a href="{{ route('LearningPath.edit',['LearningPath'=>$lp->nama]) }}" class="btn btn-outline-success btn-sm">Edit</a>
+                                        <form method = 'post' action="{{ route('LearningPath.destroy',['LearningPath'=>$lp->id]) }}">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">Hapus</button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

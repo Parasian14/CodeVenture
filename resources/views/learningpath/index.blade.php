@@ -27,16 +27,8 @@
                                 <h5 class="card-title">{{ $materi->judul }}</h5>
                                 <p class="card-text">{{ $materi->deskripsi }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    @php($status = $user_materis->where('materis_id', $materi->id)->first()->status)
-                                    @if($status == 'done')
-                                        <a href="{{ route('Materi.show',['materi_judul'=>$materi->judul, 'lp_nama'=>$lp->nama]) }}" class="btn btn-danger" disable>Pelajari</a>
-                                        <small class="text-bg-success fw-semibold rounded p-2">Done!</small>
-                                    @elseif($status == 'open')
-                                        <a href="{{ route('Materi.show',['materi_judul'=>$materi->judul, 'lp_nama'=>$lp->nama]) }}" class="btn btn-danger" disable>Pelajari</a>
-                                        <small class="text-bg-warning fw-semibold rounded p-2">On Progress</small>
-                                    @else
-                                        <small class="text-bg-danger fw-semibold rounded p-2">Not Yet</small>
-                                    @endif
+                                    <a href="{{ route('Materi.show',['materi_judul'=>$materi->judul, 'lp_nama'=>$lp->nama]) }}" class="btn btn-danger" disable>Pelajari</a>
+                                    <small class="text-bg-success fw-semibold rounded p-2">Done!</small>
                                 </div>
                             </div>
                         </div>

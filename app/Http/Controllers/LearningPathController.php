@@ -8,7 +8,8 @@ use App\Models\LearningPath;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use app\Models\User;
-use App\Models\UsersMateris;
+use Illuminate\Support\Facades\Storage;
+
 
 class LearningPathController extends Controller
 {
@@ -26,7 +27,6 @@ class LearningPathController extends Controller
      */
     public function create()
     {
-        
         return view("LearningPath.create");
     }
 
@@ -67,44 +67,63 @@ class LearningPathController extends Controller
         $user = User::find($user_id);
         $lp = DB::table('learning_path')->where('nama', $lp_nama)->first();
         $materis = LearningPath::find($lp->id)->materis;
-        
-        //users-lps relation and users_materi's initial relation
         $pivot = DB::table('users_lps')->where([
             ['users_id',$user_id],
             ['lps_id',$lp->id]
         ])->first();
-        if($pivot==null){
-            foreach($materis as $materi){
-                $user->umateris()->attach($materi->id, ['status'=> 'closed']);
-            }
+        if($pivot==null){  
             $user->lps()->attach($lp->id);    
-            UsersMateris::where('materis_id', $materis[0]->id)->update(['status' => 'open']);
-        }       
-        $user_materis = DB::table('users_materis')->where('users_id', $user_id)->get();
-        return view("learningpath.index", ['lp'=> $lp, 'materis'=> $materis,'user_materis'=> $user_materis]);
+        } 
+        return view("learningpath.index", ['lp'=> $lp, 'materis'=> $materis]);
     }
+
+    
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $lp_id)
     {
-        //
+        $lp = LearningPath::find($lp_id)->first();
+        if($lp->nama != $request->nama){
+            $request->validate(['nama' => ['required', 'string', 'max:10', 'unique:'.LearningPath::class],]);
+        }
+        $request->validate([
+            'deskripsi' => ['required', 'min:3','max:100'],
+            'isi'=>['required', 'min:3','max:1000'],
+        ]);
+        if($request->hasFile('image')){
+            $filename = time().$request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images/LearningPath', $filename, 'public');
+        }
+        else {
+            $path = $lp->image;
+        }
+        $lp->Update([
+            'nama' => $request->nama,
+            'deskripsi' => $request->deskripsi,
+            'isi' => $request->isi,  
+            'image'=>'/storage/'.$path
+        ]);
+        return redirect(route('LearningPath.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($lp_id)
     {
-        //
+        DB::table('users_lps')->where('lps_id',$lp_id)->delete();
+        $materis = LearningPath::find($lp_id)->materis;
+        DB::table('materi')->whereIn('id',$materis->pluck('id'))->delete();
+        $path = LearningPath::find($lp_id)->image;
+        Storage::delete($path);
+        DB::table('learning_path')->where('id',$lp_id)->delete();
+        
+        return redirect(route('LearningPath.index'));
     }
 }

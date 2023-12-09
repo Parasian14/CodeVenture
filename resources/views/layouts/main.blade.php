@@ -91,7 +91,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/progress">
+                        <a class="nav-link" href="{{ route('Progress.index') }}">
                             <svg class="bi" width="28" height="28">
                                 <use xlink:href="#materi" />
                             </svg>

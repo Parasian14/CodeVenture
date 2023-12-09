@@ -3,10 +3,8 @@
 @section('title')
     <title>My Progress</title>
 @endsection
-
 @section('content')
     <main>
-
         <section class="text-center container">
             <div class="row">
                 <div class="col-lg-6 col-md-8 mx-auto">
@@ -31,10 +29,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ $lp->nama }}</h5>
                                 <p class="card-text">{{ $lp->deskripsi }}</p>
-                                <a href="detail_LP.html" class="btn btn-success">Selesai</a>
-                            </div>
-                            <div class="card-footer text-body-secondary">
-                                Last activity : 2 days ago
+                                <a href="{{ route('LearningPath.show',['lp_nama'=>$lp->nama]) }}" class="btn btn-danger">Pelajari</a>
                             </div>
                         </div>
                     @endforeach

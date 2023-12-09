@@ -19,8 +19,9 @@
 
                 <div class="mb-4">
                     <div class="btn-toolbar mb-2 mb-md-0">
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2 border-secondary-subtle" type="search" placeholder="Search"
+                        <form method = 'post' action = "{{ route('learning_search') }}" class="d-flex" role="search">
+                            @csrf
+                            <input class="form-control me-2 border-secondary-subtle" type="search" name = "search" placeholder="Search"
                                 aria-label="Search">
                             <button class="btn btn-sm btn-outline-success" type="submit">Search</button>
                         </form>
