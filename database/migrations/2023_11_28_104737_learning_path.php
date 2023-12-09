@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama')->unique();
             $table->text('deskripsi');
             $table->text('isi');
-            $table->string('image')->unique()->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

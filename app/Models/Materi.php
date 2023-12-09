@@ -4,24 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-
-class LearningPath extends Model
+class Materi extends Model
 {
-    public function materis(): HasMany
+    public function learningpath(): BelongsTo
     {
-        return $this->hasMany(Materi::class,'learning_path_id');
+        return $this->belongsTo(LearningPath::class,'learning_path_id');
     }
-    protected $table = 'learning_path';
     use HasFactory;
+    protected $table = 'materi';
+
     protected $fillable = [
-        'nama',
+        'judul',
         'deskripsi',
         'isi',
         'image',
     ];
+
     protected $casts = [
         'timestamps' => 'datetime',
     ];
+    
 }

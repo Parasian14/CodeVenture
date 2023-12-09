@@ -94,7 +94,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             @auth 
-                                <li><a class="dropdown-item" href="{{ Auth::User()->admin==1?route('admin'):route('profil.edit') }}">{{ Auth::User()->admin==1?'Dashboard':'Profil' }}</a></li>
+                                <li><a class="dropdown-item" href="{{ Auth::User()->admin==1?route('LearningPath.index'):route('profil.edit') }}">{{ Auth::User()->admin==1?'Dashboard':'Profil' }}</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>

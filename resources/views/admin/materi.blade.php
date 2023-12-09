@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin</title>
 
-    <link rel="stylesheet" href="assets/bootstrap-5.3.2-dist/css/bootstrap.css">
-    <link rel="stylesheet" href="assets/bootstrap-icons-1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="assets/CSS/svg.css">
-    <link rel="stylesheet" href="assets/CSS/dashboard.css">
+    <link rel="stylesheet" href="{{ asset('assets/bootstrap-5.3.2-dist/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/bootstrap-icons-1.10.5/font/bootstrap-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/CSS/svg.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/CSS/dashboard.css') }}">
 </head>
 
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -176,7 +176,7 @@
                     </h6>
                     <ul class="nav flex-column mb-auto">
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center gap-2" href="admin.html">
+                            <a class="nav-link d-flex align-items-center gap-2" href="{{ route('LearningPath.index') }}">
                                 <svg class="bi">
                                     <use xlink:href="#file-earmark-text" />
                                 </svg>
@@ -184,7 +184,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center gap-2" href="admin2.html">
+                            <a class="nav-link d-flex align-items-center gap-2" href="{{ route('Materi.index') }}">
                                 <svg class="bi">
                                     <use xlink:href="#file-earmark-text" />
                                 </svg>
@@ -224,8 +224,8 @@
 
             <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
 
-            <h2>Learning Path</h2>
-            <form action="{{ route('LearningPath.create') }}">
+            <h2>Materi</h2>
+            <form action="{{ route('Materi.create') }}">
                 <button type="submit" class="btn btn-md btn-outline-success my-2">Tambah</button>
             </form>
             <div class="table-responsive-md mb-5">
@@ -235,53 +235,26 @@
                             <th scope="col">No</th>
                             <th scope="col">Judul</th>
                             <th scope="col">Deskripsi</th>
-                            <th scope="col">Materi</th>
+                            <th scope="col">Learning Path</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
+                        @foreach ($materis as $materi)
                         <tr>
                             <th scope="row">1</th>
-                            <td>Machine Learning</td>
-                            <td>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus labore asperiores
-                                minus autem aliquid debitis.</td>
-                            <td>Python</td>
+                            <td>{{ $materi -> judul }}</td>
+                            <td>{{ $materi -> deskripsi }}</td>
+                            <td>{{ ($lps -> where('id',$materi->learning_path_id))->first()->nama }}</td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="#" class="btn btn-outline-primary btn-sm">View</a>
+                                    <a href="{{ route('Materi.show',['materi_judul'=>$materi->judul, 'lp_nama'=>($lps -> where('id',$materi->learning_path_id))->first()->nama]) }}" class="btn btn-outline-primary btn-sm">View</a>
                                     <a href="#" class="btn btn-outline-success btn-sm">Edit</a>
                                     <a href="#" class="btn btn-outline-danger btn-sm">Hapus</a>
                                 </div>
                             </td>
                         </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Android Dev</td>
-                            <td>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus labore asperiores
-                                minus autem aliquid debitis.</td>
-                            <td>Kotlin</td>
-                            <td>
-                                <div class="btn-group">
-                                    <a href="#" class="btn btn-outline-primary btn-sm">View</a>
-                                    <a href="#" class="btn btn-outline-success btn-sm">Edit</a>
-                                    <a href="#" class="btn btn-outline-danger btn-sm">Hapus</a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Web Dev</td>
-                            <td>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus labore asperiores
-                                minus autem aliquid debitis.</td>
-                            <td>HTML, CSS, JS, PHP</td>
-                            <td>
-                                <div class="btn-group">
-                                    <a href="#" class="btn btn-outline-primary btn-sm">View</a>
-                                    <a href="#" class="btn btn-outline-success btn-sm">Edit</a>
-                                    <a href="#" class="btn btn-outline-danger btn-sm">Hapus</a>
-                                </div>
-                            </td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -289,7 +262,7 @@
     </div>
 </div>
 
-<script src="assets/bootstrap-5.3.2-dist/js/bootstrap.bundle.js"></script>
+<script src="{{ asset('assets/bootstrap-5.3.2-dist/js/bootstrap.bundle.js') }}"></script>
 
 </body>
 

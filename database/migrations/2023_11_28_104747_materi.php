@@ -13,8 +13,12 @@ return new class extends Migration
     {
         Schema::create('materi', function (Blueprint $table) {
             $table->id();
-            $table->string('Judul');
-            $table->string('Isi');
+            $table->string('judul')->unique();
+            $table->text('deskripsi');
+            $table->text('isi');
+            $table->string('image')->unique()->nullable();
+            $table->unsignedBigInteger('learning_path_id');
+            $table->foreign('learning_path_id')->references('id')->on('learning_path')->cascadeOnDelete();
             $table->timestamps();
         });
     }

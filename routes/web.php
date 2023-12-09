@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\LearningPathController;
+use App\Http\Controllers\MateriController;
 use App\Http\Controllers\ProfileController;
 use App\Models\LearningPath;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,13 +26,21 @@ Route::get('/progress', function () {
     return view('progress');
 })->middleware(['auth', 'verified'])->name('progress');
 
-Route::get('/admin', function () {
-    return view('admin');
-})->middleware(['auth', 'admin'])->name('admin');
 
-Route::resources([
-    'LearningPath' => LearningPathController::class,
-]);
+
+Route::get('/admin/Materi', function () {
+    
+})->middleware(['auth', 'admin'])->name('admin2');
+
+Route::resource('Materi', MateriController::class)
+->middleware(['admin']);
+
+Route::resource('LearningPath', LearningPathController::class)
+->middleware(['admin']);
+
+Route::get('{lp_nama}/show', [LearningPathController::class, 'show'])->name('LearningPath.show');
+
+Route::get('{lp_nama}/{materi_judul}/show', [MateriController::class, 'show'])->name('Materi.show');
 
 Route::get('/learning_path', function () {
     return view('learning_path');

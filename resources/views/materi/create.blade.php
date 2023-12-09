@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Learning Path | Admin</title>
+    <title>Tambah Materi | Admin</title>
 
     <link rel="stylesheet" href="{{ asset('assets/CSS/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/bootstrap-5.3.2-dist/css/bootstrap.css') }}">
@@ -15,18 +15,26 @@
 <body class="bg-body-tertiary">
 
     <section class="container-md">
-        <h2 class="text-center">Tambah Learning Path</h2>
-        <form method = 'post' action="{{ route('LearningPath.store') }}" enctype="multipart/form-data">
+        <h2 class="text-center">Tambah Materi</h2>
+        <form method="post" action="{{ route('Materi.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
-                <label for="judul" class="form-label">Nama</label>
-                <input type="text" class="form-control border-black" name = "nama" id="judul" aria-describedby="judulHelp">
-                <div id="judulHelp" class="form-text">Nama Learning Path.</div>
+                <label for="judul" class="form-label">Learning Path</label>
+                <select class="form-control border-black" name = "lp">
+                    @foreach ($lps as $lp)
+                        <option value={{ $lp->id }}>{{ $lp->nama }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="judul" class="form-label">Judul</label>
+                <input type="text" class="form-control border-black" name = "judul" id="judul" aria-describedby="judulHelp">
+                <div id="judulHelp" class="form-text">Judul materi.</div>
             </div>
             <div class="mb-3">
                 <label for="judul" class="form-label">Deskripsi</label>
                 <input type="text" class="form-control border-black" name = "deskripsi" id="judul" aria-describedby="deskHelp">
-                <div id="deskHelp" class="form-text">Deskripsi Learning Path.</div>
+                <div id="deskHelp" class="form-text">Deskripsi materi.</div>
             </div>
             <div class="mb-3">
                 <label for="uploadFoto" class="form-label">Upload Foto</label>
@@ -37,7 +45,7 @@
                 <textarea class="form-control border-black" id="isi" name = "isi" rows="3"></textarea>
             </div>
             <div class="text-center">
-                <a href="{{ route('LearningPath.index') }}" class="btn btn-danger">Kembali</a>
+                <a href="Materi.index" class="btn btn-danger">Kembali</a>
                 <form>
                     <button type="submit" class="btn btn-success">Simpan</button>
                 </form>
