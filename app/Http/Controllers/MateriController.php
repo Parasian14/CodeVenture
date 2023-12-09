@@ -6,6 +6,8 @@ use App\Models\LearningPath;
 use Illuminate\Http\Request;
 use App\Models\Materi;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Models\UsersMateris;
 class MateriController extends Controller
 {
     /**
@@ -57,11 +59,13 @@ class MateriController extends Controller
      * Display the specified resource.
      */
     public function show($lp_nama,$materi_judul)
-    {
+    {   
         $materi = DB::table('materi')->where('judul', $materi_judul)->first();
         $lp = DB::table('learning_path')->where('nama', $lp_nama)->first();
         $materis = LearningPath::find($lp->id)->materis;
-        return view("Materi.index", ['materi'=> $materi, 'lp'=> $lp, 'materis'=> $materis]);
+        $user_id = Auth::User()->id;
+        $user_materis = DB::table('users_materis')->where('users_id', $user_id)->get();
+        return view("Materi.index", ['materi'=> $materi, 'lp'=> $lp, 'materis'=> $materis, 'user_materis'=>$user_materis]);
     }
 
     /**
@@ -75,9 +79,11 @@ class MateriController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update($materi)
     {
-        //
+        $user_id = Auth::User()->id;
+        $user_materis = DB::table('users_materis')->where('users_id', $user_id)->get();
+        dd($user_materis);
     }
 
     /**
@@ -85,6 +91,6 @@ class MateriController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        
     }
 }

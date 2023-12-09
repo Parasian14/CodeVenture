@@ -18,6 +18,7 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = 'LearningPath.index';
+    public const USER = '/progress';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.

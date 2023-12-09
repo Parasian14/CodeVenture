@@ -12,6 +12,16 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public function lps()
+    {
+        return $this->belongsToMany(LearningPath::class, 'users_lps', 'users_id', 'lps_id');
+    }
+
+    public function umateris()
+    {
+        return $this->belongsToMany(Materi::class, 'users_materis', 'users_id', 'materis_id');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

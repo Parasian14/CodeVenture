@@ -19,7 +19,6 @@ class IsAdmin
         if (Auth::user() && Auth::user() -> admin == 1) {
             return $next($request);
         }
-
-    return redirect('/progress');
+        return redirect('/progress');
     }
 }

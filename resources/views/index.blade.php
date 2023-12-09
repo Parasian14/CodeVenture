@@ -40,54 +40,24 @@
             <!-- Coba ganti jadi button tanpa nambah gap di foto -->
             <div class="row g-0 justify-content-center justify-content-md-evenly">
                 <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <div class="col">
-                        <div class="card">
-                            <img src="{{ asset('assets/Resources/logo.png') }}" class="card-img-top"
-                                alt="Learning Path">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">Machine Learning</h5>
-                                <p class="card-text text-center">This is a longer card with supporting text below as a
-                                    natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="text-center mb-2">
-                                    <a href="detail_LP.html" class="btn btn-lg btn-danger">Pelajari</a>
+                    @foreach($lps as $lp)
+                        <div class="col">
+                            <div class="card">
+                                <img src="{{ $lp->image }}" class="card-img-top"
+                                    alt="Learning Path">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">{{ $lp->nama }}</h5>
+                                    <p class="card-text text-center">{{ $lp->deskripsi }}</p>
+                                    <div class="text-center mb-2">
+                                        <a href="{{ route('LearningPath.show',['lp_nama'=>$lp->nama]) }}" class="btn btn-lg btn-danger">Pelajari</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <img src="{{ asset('assets/Resources/logo.png') }}" class="card-img-top"
-                                alt="Learning Path">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">Android Dev</h5>
-                                <p class="card-text text-center">This is a longer card with supporting text below as a
-                                    natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="text-center mb-2">
-                                    <a href="detail_LP.html" class="btn btn-lg btn-danger">Pelajari</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <img src="{{ asset('assets/Resources/logo.png') }}" class="card-img-top"
-                                alt="Learning Path">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">Web Dev</h5>
-                                <p class="card-text text-center">This is a longer card with supporting text below as a
-                                    natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="text-center mb-2">
-                                    <a href="detail_LP.html" class="btn btn-lg btn-danger">Pelajari</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
                 <div class="text-center mt-5">
-                    <a href="learning_path.html" class="btn btn-lg btn-danger">Telusuri lebih lanjut</a>
+                    <a href="/learning_path" class="btn btn-lg btn-danger">Telusuri lebih lanjut</a>
                 </div>
             </div>
     </section>

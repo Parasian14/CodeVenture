@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\Models\LearningPath;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use app\Models\User;
+use App\Models\UsersMateris;
 
 class LearningPathController extends Controller
 {
@@ -14,7 +17,6 @@ class LearningPathController extends Controller
      */
     public function index()
     {
-        
         $lps = DB::table('learning_path')->paginate(15);
         return view('admin.learningPath', ['lps' => $lps]);
     }
@@ -61,9 +63,25 @@ class LearningPathController extends Controller
      */
     public function show($lp_nama)
     {
+        $user_id = Auth::User()->id;
+        $user = User::find($user_id);
         $lp = DB::table('learning_path')->where('nama', $lp_nama)->first();
         $materis = LearningPath::find($lp->id)->materis;
-        return view("learningpath.index", ['lp'=> $lp, 'materis'=> $materis]);
+        
+        //users-lps relation and users_materi's initial relation
+        $pivot = DB::table('users_lps')->where([
+            ['users_id',$user_id],
+            ['lps_id',$lp->id]
+        ])->first();
+        if($pivot==null){
+            foreach($materis as $materi){
+                $user->umateris()->attach($materi->id, ['status'=> 'closed']);
+            }
+            $user->lps()->attach($lp->id);    
+            UsersMateris::where('materis_id', $materis[0]->id)->update(['status' => 'open']);
+        }       
+        $user_materis = DB::table('users_materis')->where('users_id', $user_id)->get();
+        return view("learningpath.index", ['lp'=> $lp, 'materis'=> $materis,'user_materis'=> $user_materis]);
     }
 
     /**

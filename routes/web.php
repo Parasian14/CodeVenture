@@ -3,7 +3,7 @@
 use App\Http\Controllers\LearningPathController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\ProfileController;
-use App\Models\LearningPath;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 
@@ -18,32 +18,31 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
+
 Route::get('/', function () {
-    return view('index');
+    $lps = DB::table('learning_path')->paginate(3);
+    return view('index',['lps'=>$lps]);
 });
 
 Route::get('/progress', function () {
-    return view('progress');
+    $user_lp = DB::table('users_lps')->where('users_id', Auth::user()->id)->get()->pluck('lps_id')->toArray();
+    $lps = DB::table('learning_path')->whereIn('id',$user_lp)->orderByRaw("FIELD(id, " . implode(",", $user_lp) . ")")->get();  
+    return view('progress',['lps'=>$lps]);
 })->middleware(['auth', 'verified'])->name('progress');
 
-
-
-Route::get('/admin/Materi', function () {
-    
-})->middleware(['auth', 'admin'])->name('admin2');
-
 Route::resource('Materi', MateriController::class)
-->middleware(['admin']);
+->middleware(['admin'])->except('show');
 
 Route::resource('LearningPath', LearningPathController::class)
-->middleware(['admin']);
+->middleware(['admin'])->except('show');
 
 Route::get('{lp_nama}/show', [LearningPathController::class, 'show'])->name('LearningPath.show');
 
-Route::get('{lp_nama}/{materi_judul}/show', [MateriController::class, 'show'])->name('Materi.show');
+Route::get('{lp_nama}/{materi_judul}/show', [MateriController::class, 'show','update'])->name('Materi.show');
 
 Route::get('/learning_path', function () {
-    return view('learning_path');
+    $lps = DB::table('learning_path')->paginate(9);
+    return view('learning_path',['lps'=>$lps]);
 });
 
 Route::middleware('auth')->group(function () {

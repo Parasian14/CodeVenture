@@ -12,6 +12,11 @@ class Materi extends Model
     {
         return $this->belongsTo(LearningPath::class,'learning_path_id');
     }
+
+    public function musers()
+    {
+        return $this->belongsToMany(User::class, 'users_materis', 'materis_id', 'users_id');
+    }
     use HasFactory;
     protected $table = 'materi';
 

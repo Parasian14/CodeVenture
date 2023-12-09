@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class LearningPath extends Model
 {
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'users_lps', 'lps_id', 'users_id');
+    }
     public function materis(): HasMany
     {
         return $this->hasMany(Materi::class,'learning_path_id');

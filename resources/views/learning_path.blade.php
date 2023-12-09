@@ -28,125 +28,20 @@
                 </div>
 
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img src="{{ asset('assets/Resources/logo.png') }}" class="tamnel" alt="tamnel">
-                            <div class="card-body text-center">
-                                <h5>Judul</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="btn-group text-center">
-                                    <a href="detail_LP.html" class="btn btn btn-danger">Pelajari</a>
+                    @foreach($lps as $lp)
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <img src="{{ $lp->image }}" class="tamnel" alt="tamnel">
+                                <div class="card-body text-center">
+                                    <h5>{{ $lp->nama }}</h5>
+                                    <p class="card-text">{{ $lp->deskripsi }}</p>
+                                    <div class="btn-group text-center">
+                                        <a href="{{ route('LearningPath.show',['lp_nama'=>$lp->nama]) }}" class="btn btn btn-danger">Pelajari</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img src="{{ asset('assets/Resources/logo.png') }}" class="tamnel" alt="tamnel">
-                            <div class="card-body text-center">
-                                <h5>Judul</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="btn-group text-center">
-                                    <a href="detail_LP.html" class="btn btn btn-danger">Pelajari</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img src="{{ asset('assets/Resources/logo.png') }}" class="tamnel" alt="tamnel">
-                            <div class="card-body text-center">
-                                <h5>Judul</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="btn-group text-center">
-                                    <a href="detail_LP.html" class="btn btn btn-danger">Pelajari</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img src="{{ asset('assets/Resources/logo.png') }}" class="tamnel" alt="tamnel">
-                            <div class="card-body text-center">
-                                <h5>Judul</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="btn-group text-center">
-                                    <a href="detail_LP.html" class="btn btn btn-danger">Pelajari</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img src="{{ asset('assets/Resources/logo.png') }}" class="tamnel" alt="tamnel">
-                            <div class="card-body text-center">
-                                <h5>Judul</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="btn-group text-center">
-                                    <a href="detail_LP.html" class="btn btn btn-danger">Pelajari</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img src="{{ asset('assets/Resources/logo.png') }}" class="tamnel" alt="tamnel">
-                            <div class="card-body text-center">
-                                <h5>Judul</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="btn-group text-center">
-                                    <a href="detail_LP.html" class="btn btn btn-danger">Pelajari</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img src="{{ asset('assets/Resources/logo.png') }}" class="tamnel" alt="tamnel">
-                            <div class="card-body text-center">
-                                <h5>Judul</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="btn-group text-center">
-                                    <a href="detail_LP.html" class="btn btn btn-danger">Pelajari</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img src="{{ asset('assets/Resources/logo.png') }}" class="tamnel" alt="tamnel">
-                            <div class="card-body text-center">
-                                <h5>Judul</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="btn-group text-center">
-                                    <a href="detail_LP.html" class="btn btn btn-danger">Pelajari</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img src="{{ asset('assets/Resources/logo.png') }}" class="tamnel" alt="tamnel">
-                            <div class="card-body text-center">
-                                <h5>Judul</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="btn-group text-center">
-                                    <a href="detail_LP.html" class="btn btn btn-danger">Pelajari</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
 
                 <!-- tempat pagination -->
